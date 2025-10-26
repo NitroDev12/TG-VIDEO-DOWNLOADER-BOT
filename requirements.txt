@@ -1,2 +1,4 @@
-aiogram
-yt_dlp
+aiogram==2.25.1
+yt-dlp
+requests
+python-dotenv
