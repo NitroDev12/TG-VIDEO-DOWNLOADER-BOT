@@ -1,3 +1,4 @@
 aiogram==2.25.1
 yt-dlp==2025.10.22
 pytz
+aiohttp==3.9.5
