@@ -12,7 +12,7 @@ from aiohttp import web  # <-- render uchun
 
 logging.basicConfig(level=logging.INFO)
 
-BOT_TOKEN = "YOUR_BOT_TOKEN"
+BOT_TOKEN = "7900503267:AAGnR8h9GU9G10qny2GZbHdY_49lv9Lfy5E"
 ADMIN_ID = 7174828209
 
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
