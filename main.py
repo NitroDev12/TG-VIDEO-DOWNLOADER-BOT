@@ -7,6 +7,7 @@ from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
 from aiogram.types import FSInputFile
 import yt_dlp
+import os
 
 # 📋 Loglarni sozlash
 logging.basicConfig(level=logging.INFO)
@@ -28,18 +29,22 @@ stats = {
 
 
 def download_video(url: str):
+    """Videoni yuklab olish funksiyasi (yt_dlp bilan)"""
     ydl_opts = {
         "format": "mp4",
         "outtmpl": "%(title)s.%(ext)s",
         "merge_output_format": "mp4",
-        "nonplaylist": True,
         "quiet": True,
         "no_warnings": True,
-        "cookies": "cookies.txt", 
     }
+
+    if os.path.exists("cookies.txt"):
+        ydl_opts["cookiefile"] = "cookies.txt"
+
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
         return ydl.prepare_filename(info)
+
 
 # 🏁 /start komandasi
 @dp.message(Command("start"))
@@ -89,17 +94,18 @@ async def link_handler(message: types.Message):
     await message.answer("⏳ Video yuklanmoqda, biroz kuting…")
 
     try:
-        filename = await asyncio.to_thread(download_video, url)  # ⚡ yuklashni async fon rejimda
+        filename = await asyncio.to_thread(download_video, url)  # ⚡️ Yuklash fon rejimida
         video = FSInputFile(filename)
         await message.answer_video(video)
+        logging.info(f"✅ Video yuborildi: {filename}")
     except Exception as e:
-        logging.error(f"Video yuklashda xatolik: {e}")
-        await message.answer(f"⚠️ Xatolik: video yuklanmadi.\n<code>{e}</code>")
+        logging.error(f"❌ Video yuklashda xatolik: {e}")
+        await message.answer(f"⚠️ Video yuklab bo‘lmadi.\n<code>{e}</code>")
 
 
 # 🚀 Botni ishga tushirish
 async def main():
-    logging.info("Bot ishga tushdi ✅")
+    logging.info("🤖 Bot ishga tushdi va polling rejimida ishlamoqda...")
     await dp.start_polling(bot)
 
 
