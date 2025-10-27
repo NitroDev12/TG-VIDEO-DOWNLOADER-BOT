@@ -27,7 +27,6 @@ stats = {
 }
 
 
-# 🎬 Video yuklovchi funksiya
 def download_video(url: str):
     ydl_opts = {
         "format": "mp4",
@@ -35,12 +34,12 @@ def download_video(url: str):
         "merge_output_format": "mp4",
         "nonplaylist": True,
         "quiet": True,
-        "no_warnings": True
+        "no_warnings": True,
+        "cookies": "cookies.txt", 
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
         return ydl.prepare_filename(info)
-
 
 # 🏁 /start komandasi
 @dp.message(Command("start"))
