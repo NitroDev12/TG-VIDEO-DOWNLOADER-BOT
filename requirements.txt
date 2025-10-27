@@ -1,4 +1,4 @@
-aiogram==3.10.0
-aiohttp==3.11.12
-yt-dlp==2025.10.22
+aiogram>=3.0.0,<4.0.0
+aiohttp
+yt-dlp
 pytz
